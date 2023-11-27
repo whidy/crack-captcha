@@ -1,0 +1,19 @@
+{
+  "name": "crack-captcha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/bodyparser": "^5.0.0",
+    "baidu-aip-sdk": "^4.16.15",
+    "koa": "^2.14.2",
+    "koa-router": "^12.0.1",
+    "nopecha": "^1.0.10"
+  }
+}

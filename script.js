@@ -4,11 +4,13 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       Whidy
-// @match        apaas5.testysdpaas.local/apaas/manage/ui/
 // @match        cloud.ysdpaas.local/awecloud/login/
+// @match        cloud.wodcloud.com/awecloud/login/
 // @match        bgapi.wodcloud.com/web/
 // @match        *://localhost:5173/apaas/manage/ui/
 // @match        https://apaas5.ysdpaas.local/apaas/manage/ui/
+// @match        apaas5.testysdpaas.local/apaas/manage/ui/
+// @match        apaas5.wodcloud.com/apaas/manage/ui/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=testysdpaas.local
 // @grant        none
 // ==/UserScript==
@@ -28,6 +30,7 @@
       case "bgapi.wodcloud.com":
         img = document.querySelector(".v_code_img");
         break;
+      case "cloud.wodcloud.com":
       case "cloud.ysdpaas.local":
         img = document.querySelector(".yzm .yzm_img");
         break;
@@ -93,6 +96,7 @@
               vcodeInput =
                 img.previousElementSibling.querySelector(".el-input__inner");
               break;
+            case "cloud.wodcloud.com":
             case "cloud.ysdpaas.local":
               vcodeInput = document.querySelector(".yzm .el-input__inner");
               break;

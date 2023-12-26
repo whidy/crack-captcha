@@ -6,10 +6,7 @@
 // const request = require("request");
 // var AipOcrClient = require("baidu-aip-sdk").ocr;
 
-// var APP_ID = "43445660";
-// var API_KEY = "8Br2GGsBoohIcxhZjtcEHMbm";
-// var SECRET_KEY = "2p6zkq9NP2XPBYz0xYlsfKHuaBsi9mua";
-
+require('dotenv').config();
 const Koa = require("koa");
 const Router = require("koa-router");
 const { bodyParser } = require("@koa/bodyparser");
@@ -17,9 +14,9 @@ const app = new Koa();
 const router = new Router();
 app.use(bodyParser());
 const AipOcrClient = require("baidu-aip-sdk").ocr;
-const APP_ID = "43445660";
-const API_KEY = "8Br2GGsBoohIcxhZjtcEHMbm";
-const SECRET_KEY = "2p6zkq9NP2XPBYz0xYlsfKHuaBsi9mua";
+const APP_ID = process.env.APP_ID;
+const API_KEY = process.env.API_KEY;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 router.get("/", async (ctx) => {
   ctx.body = `<!DOCTYPE html>

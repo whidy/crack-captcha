@@ -2,7 +2,9 @@
 
 仅用于自己研究。
 
-请自己更换对应的[百度智能云ORC](https://console.bce.baidu.com/ai/?fromai=1#/ai/ocr/overview/index)的通用文字识别（标准版）的APP_ID，API_KEY，SECRET_KEY
+请自己更换对应的[百度智能云ORC](https://console.bce.baidu.com/ai/?fromai=1#/ai/ocr/overview/index)的通用文字识别（标准版）的APP_ID，API_KEY，SECRET_KEY；
+
+修改`.env.sample`文件名为`.env`，再改里面的值。
 
 ## 安装必备工具
 

@@ -6,6 +6,7 @@
 // @author       Whidy
 // @match        cloud.ysdpaas.local/awecloud/login/
 // @match        cloud.wodcloud.com/awecloud/login/
+// @match        so.wodcloud.com/xc/core/ui/
 // @match        bgapi.wodcloud.com/web/
 // @match        *://localhost:5173/apaas/manage/ui/
 // @match        https://apaas5.ysdpaas.local/apaas/manage/ui/
@@ -33,6 +34,9 @@
       case "cloud.wodcloud.com":
       case "cloud.ysdpaas.local":
         img = document.querySelector(".yzm .yzm_img");
+        break;
+      case "so.wodcloud.com":
+        img = document.querySelector(".login-form img");
         break;
       default:
         // apaas
@@ -80,7 +84,7 @@
           // 在控制台中打印消息内容
           console.log("Received message from B:", numberString);
           if (numberString.length < 4) {
-           console.log("错误数据，重新获取");
+            console.log("错误数据，重新获取");
             img.click();
             return;
           }
@@ -97,6 +101,9 @@
                 img.previousElementSibling.querySelector(".el-input__inner");
               break;
             case "cloud.wodcloud.com":
+            case "so.wodcloud.com":
+              vcodeInput = document.querySelector("input[placeholder=请输入验证码]");
+              break;
             case "cloud.ysdpaas.local":
               vcodeInput = document.querySelector(".yzm .el-input__inner");
               break;
@@ -108,6 +115,13 @@
 
           vcodeInput.value = numberString;
           vcodeInput.dispatchEvent(new Event("input"));
+          // vcodeInput.dispatchEvent(
+          //   new KeyboardEvent("keypress", {
+          //     bubbles: true,
+          //     cancelable: true,
+          //     key: "Enter",
+          //   })
+          // );
         });
       });
       clearInterval(window.timer);

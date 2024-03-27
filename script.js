@@ -9,9 +9,13 @@
 // @match        so.wodcloud.com/xc/core/ui/
 // @match        bgapi.wodcloud.com/web/
 // @match        *://localhost:5173/apaas/manage/ui/
+// @match        *://localhost:5173/unify-dev-platform/manage/ui/
 // @match        https://apaas5.ysdpaas.local/apaas/manage/ui/
 // @match        apaas5.testysdpaas.local/apaas/manage/ui/
+// @match        apaas5.test2ysdpaas.local/apaas/manage/ui/
+// @match        sxxxy-apaas.wodcloud.com/unify-dev-platform/manage/ui/
 // @match        apaas5.wodcloud.com/apaas/manage/ui/
+// @match        https://usma.wodcloud.com/usma/login/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=testysdpaas.local
 // @grant        none
 // ==/UserScript==
@@ -38,6 +42,9 @@
       case "so.wodcloud.com":
         img = document.querySelector(".login-form img");
         break;
+      case "usma.wodcloud.com":
+        img = document.querySelector(".bg-identify canvas");
+        break;
       default:
         // apaas
         img = document.querySelector(".yzm_img img");
@@ -53,23 +60,27 @@
 
         iframe.onload = function () {
           let imgBase64 = "";
-          if (img.src.startsWith("data:image")) {
-            imgBase64 = img.src;
-          } else if (img.src.startsWith("http")) {
-            const canvas = document.createElement("canvas");
+          if (img.tagName === "CANVAS") {
+            imgBase64 = img.toDataURL("image/png");
+          } else if (img.tagName === "IMG") {
+            if (img.src.startsWith("data:image")) {
+              imgBase64 = img.src;
+            } else if (img.src.startsWith("http")) {
+              const canvas = document.createElement("canvas");
 
-            // 设置 Canvas 的宽高与图像相同
-            canvas.width = img.width;
-            canvas.height = img.height;
+              // 设置 Canvas 的宽高与图像相同
+              canvas.width = img.width;
+              canvas.height = img.height;
 
-            // 获取 Canvas 的 2D 上下文
-            const context = canvas.getContext("2d");
+              // 获取 Canvas 的 2D 上下文
+              const context = canvas.getContext("2d");
 
-            // 在 Canvas 上绘制图像
-            context.drawImage(img, 0, 0);
+              // 在 Canvas 上绘制图像
+              context.drawImage(img, 0, 0);
 
-            // 将 Canvas 内容转换为 Base64 数据
-            imgBase64 = canvas.toDataURL("image/png");
+              // 将 Canvas 内容转换为 Base64 数据
+              imgBase64 = canvas.toDataURL("image/png");
+            }
           }
 
           DEBUG && console.log(imgBase64);
@@ -102,11 +113,16 @@
               break;
             case "cloud.wodcloud.com":
             case "so.wodcloud.com":
-              vcodeInput = document.querySelector("input[placeholder=请输入验证码]");
+              vcodeInput = document.querySelector(
+                "input[placeholder=请输入验证码]"
+              );
               break;
             case "cloud.ysdpaas.local":
               vcodeInput = document.querySelector(".yzm .el-input__inner");
               break;
+            // case "usma.wodcloud.com":
+            //   vcodeInput = document.querySelector(".msg-code .el-input__inner");
+            //   break;
             default:
               // apaas
               vcodeInput = document.querySelector(".msg-code .el-input__inner");

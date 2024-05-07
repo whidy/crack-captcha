@@ -25,7 +25,9 @@
   const DEBUG = false;
   const BGAPI_PASSWORD = "bg123456";
   const TIMEOUT = 3000;
+  const MAX_RETRY = 5;
   const domain = location.host;
+  let retry = 0;
   DEBUG && console.log("start: ", domain);
   let count = 0;
   window.timer = setInterval(() => {
@@ -88,14 +90,24 @@
           iframe.contentWindow.postMessage(imgBase64, "*");
         };
 
-        window.addEventListener("message", function (event) {
+        const fillIn = (event) => {
           // 获取消息的内容
           var { numberString } = event.data;
+
+          if (numberString === undefined) {
+            return;
+          }
 
           // 在控制台中打印消息内容
           console.log("Received message from B:", numberString);
           if (numberString.length < 4) {
             console.log("错误数据，重新获取");
+            retry += 1;
+            if (retry > MAX_RETRY) {
+              console.log("超过最大重试次数，退出");
+              window.location.reload();
+              return;
+            }
             img.click();
             return;
           }
@@ -131,6 +143,7 @@
 
           vcodeInput.value = numberString;
           vcodeInput.dispatchEvent(new Event("input"));
+          window.removeEventListener("message", fillIn, false);
           // vcodeInput.dispatchEvent(
           //   new KeyboardEvent("keypress", {
           //     bubbles: true,
@@ -138,7 +151,9 @@
           //     key: "Enter",
           //   })
           // );
-        });
+        };
+
+        window.addEventListener("message", fillIn, false);
       });
       clearInterval(window.timer);
       window.timer = null;

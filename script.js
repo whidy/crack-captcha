@@ -54,8 +54,10 @@
     }
     DEBUG && console.log(img);
     if (img) {
+      var randomId = `crack-captcha-${Math.ceil(Math.random() * 1000000000)}`;
       img.addEventListener("load", function () {
         var iframe = document.createElement("iframe");
+        iframe.id = randomId;
         iframe.src = "http://localhost:3000";
         document.body.appendChild(iframe);
         iframe.style.display = "none";
@@ -108,6 +110,7 @@
               window.location.reload();
               return;
             }
+            document.getElementById(randomId).remove();
             img.click();
             return;
           }

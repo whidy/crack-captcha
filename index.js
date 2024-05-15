@@ -6,7 +6,7 @@
 // const request = require("request");
 // var AipOcrClient = require("baidu-aip-sdk").ocr;
 
-require('dotenv').config();
+require("dotenv").config();
 const Koa = require("koa");
 const Router = require("koa-router");
 const { bodyParser } = require("@koa/bodyparser");
@@ -69,9 +69,10 @@ router.post("/crackCaptcha", async (ctx) => {
   const client = new AipOcrClient(APP_ID, API_KEY, SECRET_KEY);
   const { data, origin } = ctx.request.body;
   const result = await client.generalBasic(data);
-  console.log(result)
+  console.log(result);
   let numberString = result.words_result.map((i) => i.words).join("");
   console.log(result.words_result, numberString, origin);
+
   if (!origin.includes("cloud.ysdpaas.local")) {
     console.log("transform!");
     numberString = numberString.toLowerCase();
@@ -79,6 +80,9 @@ router.post("/crackCaptcha", async (ctx) => {
       .replace(/o/g, "0")
       .replace(/z/g, "2")
       .replace(/i/g, "1");
+    if (!Number(numberString)) {
+      numberString = "";
+    }
   }
   console.log(typeof numberString);
   ctx.body = {

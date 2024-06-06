@@ -50,7 +50,7 @@ router.get("/", async (ctx) => {
     window.addEventListener("message", receiveMessage, false);
     function receiveMessage(event) {
       console.log("Message received:", event.data);
-      postData("http://localhost:3000/crackCaptcha", {
+      postData("http://localhost:9999/crackCaptcha", {
         data: event.data,
         origin: event.origin
       }).then((res) => {
@@ -91,4 +91,4 @@ router.post("/crackCaptcha", async (ctx) => {
   };
 });
 app.use(router.routes());
-app.listen(3000);
+app.listen(9999);
